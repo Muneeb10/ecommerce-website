@@ -5,23 +5,37 @@ import data from '../db/data';
 
 const ProductGrid = () => {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-center w-full mb-8">
-        <HeaderTitle title="Our Product" />
-      </div>
+    <section className="bg-white py-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-12">
+          <HeaderTitle title="Trending Products" />
+          <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
+            Revamp your wardrobe with Pk Fashion's featured collection at unbeatable prices online in Pakistan. Discover trendy pieces that won't break the bank, and step up your style game without compromising on quality!
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {data.map((product, index) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+        {/* Product Grid - Responsive columns */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {data.map((product) => (
+            <ProductCard 
+              key={product.id} 
+              product={product} 
+            />
+          ))}
+        </div>
 
-      <div className="w-full flex justify-center pt-10">
-        <button className="flex items-center justify-center gap-2 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition">
-          Load More
-        </button>
+        {/* Load More Button */}
+        <div className="text-center mt-12">
+          <button className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+            Load More Products
+            <svg className="ml-2 -mr-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,5 +1,6 @@
 import HeroSection from '../Components/HeroSection.jsx'
-import FilterProducts from '../Components/Product.jsx'
+// import FilterProducts from '../Components/Product.jsx'
+import CategoryGrid from '../Components/Categories.jsx'
 import FashionSaleSection from '../Components/FashionSaleSection.jsx'
 import ProductGrid from '../Components/Product_grid.jsx'
 import Why_Choose_Us from '../Components/Why_Choose_Us.jsx'
@@ -11,7 +12,8 @@ const Home = () => {
   return (
    <>
    <HeroSection />
-   <FilterProducts />
+   {/* <FilterProducts /> */}
+   <CategoryGrid />
    <FashionSaleSection />
    <ProductGrid />
    <Why_Choose_Us />

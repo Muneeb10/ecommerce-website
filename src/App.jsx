@@ -9,6 +9,7 @@ import Shirt from "./Pages/Shirt.jsx";
 import AboutPage from "./Pages/About.jsx";
 import ContactPage from "./Pages/Contact.jsx";
 import ProductDetail from "./Components/Product_Detail.jsx";
+import Cart from "./Components/Cart.jsx"
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path="/suit" element={<Shirt />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/cart" element={<Cart />} />
+
         <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
       <Footer />
