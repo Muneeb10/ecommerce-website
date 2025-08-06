@@ -18,8 +18,9 @@ function App() {
       <Header />
 
       <Routes>
+        <Route path="/new_arrivals" element={<Shirt />} />
         <Route path="/" element={<Home />} />
-        <Route path="/shirt" element={<Shirt />} />
+        <Route path="/men/shirts" element={<Shirt />} />
         <Route path="/pents" element={<Shirt />} />
         <Route path="/suit" element={<Shirt />} />
         <Route path="/about" element={<AboutPage />} />

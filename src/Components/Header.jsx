@@ -11,6 +11,8 @@ import {
   Menu,
   X,
   User,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
 import { useSelector } from "react-redux";
 
@@ -21,6 +23,8 @@ const Header = () => {
   const [isMenDropdownOpen, setIsMenDropdownOpen] = useState(false);
   const [isDressesDropdownOpen, setIsDressesDropdownOpen] = useState(false);
   const [isCartDropdownOpen, setIsCartDropdownOpen] = useState(false);
+  const [mobileMenDropdownOpen, setMobileMenDropdownOpen] = useState(false);
+  const [mobileDressesDropdownOpen, setMobileDressesDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const cartItems = useSelector((state) => state.cart.cartItems);
@@ -32,6 +36,8 @@ const Header = () => {
   const toggleMenDropdown = () => setIsMenDropdownOpen((prev) => !prev);
   const toggleDressesDropdown = () => setIsDressesDropdownOpen((prev) => !prev);
   const toggleCartDropdown = () => setIsCartDropdownOpen((prev) => !prev);
+  const toggleMobileMenDropdown = () => setMobileMenDropdownOpen((prev) => !prev);
+  const toggleMobileDressesDropdown = () => setMobileDressesDropdownOpen((prev) => !prev);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,10 +55,28 @@ const Header = () => {
   const navItems = [
     { label: "New Arrivals", path: "/new_arrivals" },
     { label: "Home", path: "/" },
-    { label: "Men", path: "/men" },
-    { label: "Dresses", path: "/dresses" },
+    { label: "Men", path: "/men", hasDropdown: true },
+    { label: "Dresses", path: "/dresses", hasDropdown: true },
     { label: "About", path: "/about" },
     { label: "Contact", path: "/contact" },
+  ];
+
+  const menSubItems = [
+    { label: "Cotton Dresses", path: "/men/shirts" },
+    { label: "Lawn Dresses", path: "/men/pants" },
+    { label: "Khaddar Dresses", path: "/men/suits" },
+    { label: "Shalwar Kameez", path: "/men/accessories" },
+    { label: "Bridal Dresses", path: "/men/watches" },
+    { label: "Party Wear Dresses", path: "/men/wallets" },
+  ];
+
+  const dressesSubItems = [
+    { label: "Summer Dresses", path: "/dresses/summer" },
+    { label: "Winter Dresses", path: "/dresses/winter" },
+    { label: "Festive Wear", path: "/dresses/festive" },
+    { label: "Casual Dresses", path: "/dresses/casual" },
+    { label: "Formal Dresses", path: "/dresses/formal" },
+    { label: "Party Dresses", path: "/dresses/party" },
   ];
 
   return (
@@ -96,7 +120,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden sm:flex gap-6 relative">
-            {navItems.map(({ label, path }) => {
+            {navItems.map(({ label, path, hasDropdown }) => {
               if (label === "Men") {
                 return (
                   <div key={label} className="relative group">
@@ -107,17 +131,25 @@ const Header = () => {
                       <div>
                         <h4 className="text-md font-semibold mb-2 text-gray-800">Dresses by Fabric</h4>
                         <ul className="space-y-1">
-                          <li><NavLink to="/men/shirts" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Cotton Dresses</NavLink></li>
-                          <li><NavLink to="/men/pants" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Lawn Dresses</NavLink></li>
-                          <li><NavLink to="/men/suits" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Khaddar Dresses</NavLink></li>
+                          {menSubItems.slice(0, 3).map((item) => (
+                            <li key={item.path}>
+                              <NavLink to={item.path} className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div>
                         <h4 className="text-md font-semibold mb-2 text-gray-800">Dresses by Style</h4>
                         <ul className="space-y-1">
-                          <li><NavLink to="/men/accessories" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Shalwar Kameez</NavLink></li>
-                          <li><NavLink to="/men/watches" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Bridal Dresses</NavLink></li>
-                          <li><NavLink to="/men/wallets" className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">Party Wear Dresses</NavLink></li>
+                          {menSubItems.slice(3).map((item) => (
+                            <li key={item.path}>
+                              <NavLink to={item.path} className="text-sm text-gray-700 hover:text-black px-2 py-1 rounded hover:bg-gray-100 transition-colors">
+                                {item.label}
+                              </NavLink>
+                            </li>
+                          ))}
                         </ul>
                       </div>
                       <div>
@@ -140,12 +172,15 @@ const Header = () => {
                       {label}
                     </button>
                     <div className="absolute left-0 top-full mt-2 w-64 bg-white shadow-lg border border-gray-200 rounded-md z-30 py-6 px-4 space-y-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                      <NavLink to="/dresses/summer" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Summer Dresses</NavLink>
-                      <NavLink to="/dresses/winter" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Winter Dresses</NavLink>
-                      <NavLink to="/dresses/festive" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Festive Wear</NavLink>
-                      <NavLink to="/dresses/casual" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Casual Dresses</NavLink>
-                      <NavLink to="/dresses/formal" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Formal Dresses</NavLink>
-                      <NavLink to="/dresses/party" className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors">Party Dresses</NavLink>
+                      {dressesSubItems.map((item) => (
+                        <NavLink 
+                          key={item.path}
+                          to={item.path}
+                          className="block text-sm text-gray-700 hover:text-black px-3 py-1 rounded hover:bg-gray-100 transition-colors"
+                        >
+                          {item.label}
+                        </NavLink>
+                      ))}
                     </div>
                   </div>
                 );
@@ -250,7 +285,92 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Optional: Mobile Nav and Search */}
+        {/* Mobile Navigation Menu */}
+        {isMenuOpen && (
+          <div className="sm:hidden bg-white border-t border-gray-200">
+            <div className="container mx-auto px-4 py-3">
+              <ul className="space-y-2">
+                {navItems.map(({ label, path, hasDropdown }) => {
+                  if (label === "Men") {
+                    return (
+                      <li key={label} className="border-b border-gray-100 pb-2">
+                        <button 
+                          onClick={toggleMobileMenDropdown}
+                          className="flex justify-between items-center w-full text-left py-2 font-medium"
+                        >
+                          <span>{label}</span>
+                          {mobileMenDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </button>
+                        {mobileMenDropdownOpen && (
+                          <ul className="pl-4 space-y-2 mt-2">
+                            {menSubItems.map((item) => (
+                              <li key={item.path}>
+                                <NavLink 
+                                  to={item.path}
+                                  className="block py-1 text-gray-600 hover:text-black"
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {item.label}
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  }
+
+                  if (label === "Dresses") {
+                    return (
+                      <li key={label} className="border-b border-gray-100 pb-2">
+                        <button 
+                          onClick={toggleMobileDressesDropdown}
+                          className="flex justify-between items-center w-full text-left py-2 font-medium"
+                        >
+                          <span>{label}</span>
+                          {mobileDressesDropdownOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                        </button>
+                        {mobileDressesDropdownOpen && (
+                          <ul className="pl-4 space-y-2 mt-2">
+                            {dressesSubItems.map((item) => (
+                              <li key={item.path}>
+                                <NavLink 
+                                  to={item.path}
+                                  className="block py-1 text-gray-600 hover:text-black"
+                                  onClick={() => setIsMenuOpen(false)}
+                                >
+                                  {item.label}
+                                </NavLink>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  }
+
+                  return (
+                    <li key={label} className="border-b border-gray-100">
+                      <NavLink
+                        to={path}
+                        className={({ isActive }) =>
+                          `block py-2 font-medium ${
+                            isActive ? "text-black" : "text-gray-600 hover:text-black"
+                          }`
+                        }
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {label}
+                      </NavLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        )}
+
+        {/* Optional: Mobile Search */}
         {isSearchOpen && (
           <div className="border-t border-gray-200 px-4 py-3 bg-gray-50">
             <input

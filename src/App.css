@@ -11,3 +11,8 @@
 
 
 
+@media (max-width: 768px) { /* or your preferred breakpoint */
+  body, html {
+    overflow-x: hidden;
+  }
+}
