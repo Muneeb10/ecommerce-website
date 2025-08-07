@@ -14,12 +14,27 @@ const ProductCard = ({ product }) => {
 
   const handleAddToCart = (e) => {
     e.stopPropagation();
-    dispatch(addToCart({
-      ...product,
-      // Ensure all required fields are included
-      newPrice: product.newPrice || product.price,
-      img: product.img || product.image
-    }));
+    dispatch(
+      addToCart({
+        id: product.id,
+        img: product.img || product.image,
+        title: product.title,
+        price: product.price,
+        newPrice: product.newPrice || product.price,
+        prevPrice: product.prevPrice || null,
+        company: product.company || "",
+        category: product.category || "",
+        colors: product.colors || [],
+        sizes: product.sizes || [],
+        selectedColor: product.colors?.[0] || "",
+        selectedSize: product.sizes?.[0] || "",
+        selectedDressSize: "S",
+        quantity: 1,
+        rating: product.rating || 4,
+        reviews: product.reviews || 0,
+        description: product.description || "",
+      })
+    );
   };
 
   return (
@@ -60,7 +75,9 @@ const ProductCard = ({ product }) => {
                   key={i}
                   size={14}
                   className={`${
-                    i < (product.rating || 4) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+                    i < (product.rating || 4)
+                      ? "text-yellow-400 fill-yellow-400"
+                      : "text-gray-300"
                   } w-3 h-3 sm:w-4 sm:h-4`}
                   strokeWidth={i < (product.rating || 4) ? 1.5 : 1}
                 />

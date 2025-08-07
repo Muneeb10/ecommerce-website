@@ -1,8 +1,10 @@
 import React from "react";
+import { NavLink } from 'react-router-dom';
 import image_1 from '../assets/Footer_images/image_1.jpeg';
 import image_2 from '../assets/Footer_images/image_2.jpeg';
 import logo from '../assets/logo_white.png';
 import WhatsAppIcon from "./Whatsapp_Icon";
+import BackToTopButton from "./BackToTopButton.jsx"
 
 import {
   Facebook,
@@ -56,10 +58,10 @@ const Footer = () => {
         <div className="md:col-span-1 text-center sm:text-left">
           <h3 className="text-lg font-semibold mb-3">Quick Links</h3>
           <ul className="space-y-2 text-gray-400 text-sm">
-            <li><a href="#" className="hover:text-white transition-colors block">Home</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">Shop</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">About</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">Contact</a></li>
+           <li><NavLink to="/" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Home</NavLink></li>
+           <li><NavLink to="/men/shirts" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Shop</NavLink></li>
+           <li><NavLink to="/about" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>About</NavLink></li>
+           <li><NavLink to="/contact" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Contact</NavLink></li>
           </ul>
         </div>
 
@@ -67,10 +69,10 @@ const Footer = () => {
         <div className="md:col-span-1 text-center sm:text-left">
           <h3 className="text-lg font-semibold mb-3">Customer Service</h3>
           <ul className="space-y-2 text-gray-400 text-sm">
-            <li><a href="#" className="hover:text-white transition-colors block">FAQs</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">Shipping</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">Returns</a></li>
-            <li><a href="#" className="hover:text-white transition-colors block">Privacy Policy</a></li>
+           <li><NavLink to="/faqs" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>FAQs</NavLink></li>
+           <li><NavLink to="/shipping-policy" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Shipping</NavLink></li>
+           <li><NavLink to="/return-policy" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Returns</NavLink></li>
+           <li><NavLink to="/privacy-policy" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Privacy Policy</NavLink></li>
           </ul>
         </div>
 
@@ -78,32 +80,39 @@ const Footer = () => {
         <div className="md:col-span-1 text-center sm:text-left">
           <h3 className="text-lg font-semibold mb-3">Additional</h3>
           <ul className="text-gray-400 text-sm space-y-2">
-            <li className="hover:text-white cursor-pointer transition-colors block">Our Story</li>
-            <li className="hover:text-white cursor-pointer transition-colors block">Who we are</li>
-            <li className="hover:text-white cursor-pointer transition-colors block">Our process</li>
-            <li className="hover:text-white cursor-pointer transition-colors block">Latest News</li>
+        
+            <li><NavLink to="/about" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Our Story</NavLink></li>
+            <li><NavLink to="/who we are" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Who we are</NavLink></li>
+            <li><NavLink to="/our-process" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Our Process</NavLink></li>
+           <li><NavLink to="/blog" className={({ isActive }) => `hover:text-white transition-colors block ${isActive ? 'text-white font-medium' : 'text-gray-400'}`}>Blog & News</NavLink></li>
           </ul>
         </div>
 
         {/* Latest Blogs - Left aligned on all screens */}
-        <div className="md:col-span-2 lg:col-span-1 xl:col-span-1">
-          <h3 className="text-lg font-semibold mb-3 text-center sm:text-left">Latest Blogs</h3>
-          <div className="space-y-4">
-            {blogPosts.map((post) => (
-              <div key={post.id} className="flex gap-3">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-20 h-20 rounded object-cover flex-shrink-0"
-                />
-                <div>
-                  <h4 className="font-medium text-sm line-clamp-2">{post.title}</h4>
-                  <p className="text-xs text-gray-400 mt-1 line-clamp-2">{post.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+<div className="md:col-span-2 lg:col-span-1 xl:col-span-1">
+  <h3 className="text-lg font-semibold mb-3 text-center sm:text-left">Latest Blogs</h3>
+  <div className="space-y-4">
+    {blogPosts.map((post) => (
+      <NavLink 
+        // to={`/blog/${post.id}`} // Dynamic route (adjust based on your routing)
+        to={`/blog`} // Dynamic route (adjust based on your routing)
+        key={post.id} 
+        className="flex gap-3 hover:bg-gray-100/10 transition p-1 rounded" // Optional hover effect
+        onClick={() => window.scrollTo(0, 0)} // Scroll to top on click (optional)
+      >
+        <img
+          src={post.image}
+          alt={post.title}
+          className="w-20 h-20 rounded object-cover flex-shrink-0"
+        />
+        <div>
+          <h4 className="font-medium text-sm line-clamp-2">{post.title}</h4>
+          <p className="text-xs text-gray-400 mt-1 line-clamp-2">{post.desc}</p>
         </div>
+      </NavLink>
+    ))}
+  </div>
+</div>
       </div>
 
       {/* Footer Bottom */}
@@ -113,6 +122,7 @@ const Footer = () => {
 
       {/* WhatsApp Icon */}
       <WhatsAppIcon />
+        <BackToTopButton />
     </footer>
   );
 };

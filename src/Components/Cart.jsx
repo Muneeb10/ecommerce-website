@@ -1,6 +1,9 @@
+// Cart.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { X, Plus, Minus, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Add at top
+
 import {
   increaseQuantity,
   decreaseQuantity,
@@ -13,16 +16,14 @@ const Cart = () => {
 
   const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cartItems.reduce(
-    (sum, item) => sum + (item.price || item.newPrice) * item.quantity,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
-  const tex = 0.05 * subtotal;
-  const shipping =
-    (cartItems.reduce((total, item) => total + (item.weight || 0) * item.quantity, 0) /
-      1000) *
-    0.5 *
-    50;
-  const total = subtotal + tex + shipping;
+  const tax = 0.1 * subtotal;
+  const shipping = subtotal > 100 ? 20 : 0;
+  const total = subtotal + tax + shipping;
+
+   const navigate = useNavigate(); // Add this
 
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white min-h-screen">
@@ -44,32 +45,60 @@ const Cart = () => {
             <div className="space-y-4">
               {cartItems.map((item) => (
                 <div
-                  key={item.id}
+                  key={`${item.id}-${item.selectedColor}-${item.selectedSize || item.selectedDressSize}`}
                   className="grid grid-cols-1 md:grid-cols-[2fr_0.7fr_1fr_1fr] gap-2 items-center p-2 rounded-md bg-white shadow-[0_2px_12px_-3px_rgba(0,0,0,0.3)]"
                 >
                   {/* Product Info */}
                   <div className="flex gap-4 items-center p-2">
                     <img
-                      src={item.img || item.image}
-                      alt={item.title || item.name}
+                      src={item.img}
+                      alt={item.title}
                       className="w-20 h-20 object-cover rounded"
                     />
                     <div>
-                      <h3 className="font-semibold">{item.title || item.name}</h3>
-                      {item.color && <p className="text-gray-500 text-sm">Color: {item.color}</p>}
-                      {item.size && <p className="text-gray-500 text-sm">Size: {item.size}</p>}
+                      <h3 className="font-semibold">{item.title}</h3>
+
+                      {/* Color Display */}
+                      {item.selectedColor && (
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-gray-500 text-sm">Color:</span>
+                          <div
+                            className="w-4 h-4 rounded-full border border-gray-300"
+                            style={{ backgroundColor: item.selectedColor }}
+                          />
+                        </div>
+                      )}
+
+                      {/* Size Display */}
+                      {(item.selectedSize || item.selectedDressSize) && (
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-gray-500 text-sm">Size:</span>
+                          <span className="text-gray-700 text-sm">
+                            {item.selectedSize || item.selectedDressSize}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
                   {/* Price */}
                   <div className="text-gray-700 font-medium flex items-center justify-center">
-                    ${(item.price || item.newPrice).toFixed(2)}
+                    ${item.price.toFixed(2)}
                   </div>
 
                   {/* Quantity */}
                   <div className="flex items-center gap-2 justify-center">
                     <button
-                      onClick={() => dispatch(decreaseQuantity(item.id))}
+                      onClick={() =>
+                        dispatch(
+                          decreaseQuantity({
+                            id: item.id,
+                            selectedColor: item.selectedColor,
+                            selectedSize: item.selectedSize,
+                            selectedDressSize: item.selectedDressSize,
+                          })
+                        )
+                      }
                       className="border border-gray-500 px-2 py-1 rounded disabled:opacity-50"
                       disabled={item.quantity === 1}
                     >
@@ -77,7 +106,16 @@ const Cart = () => {
                     </button>
                     <span>{item.quantity}</span>
                     <button
-                      onClick={() => dispatch(increaseQuantity(item.id))}
+                      onClick={() =>
+                        dispatch(
+                          increaseQuantity({
+                            id: item.id,
+                            selectedColor: item.selectedColor,
+                            selectedSize: item.selectedSize,
+                            selectedDressSize: item.selectedDressSize,
+                          })
+                        )
+                      }
                       className="border border-gray-500 px-2 py-1 rounded"
                     >
                       <Plus size={16} />
@@ -87,10 +125,19 @@ const Cart = () => {
                   {/* Total & Remove */}
                   <div className="flex items-center justify-between md:justify-end gap-2">
                     <span className="font-semibold text-gray-800">
-                      ${((item.price || item.newPrice) * item.quantity).toFixed(2)}
+                      ${(item.price * item.quantity).toFixed(2)}
                     </span>
                     <button
-                      onClick={() => dispatch(removeFromCart(item.id))}
+                      onClick={() =>
+                        dispatch(
+                          removeFromCart({
+                            id: item.id,
+                            selectedColor: item.selectedColor,
+                            selectedSize: item.selectedSize,
+                            selectedDressSize: item.selectedDressSize,
+                          })
+                        )
+                      }
                       className="text-gray-500 border border-gray-600 rounded-full p-1"
                     >
                       <X size={18} />
@@ -128,7 +175,7 @@ const Cart = () => {
                   Shipping: <span className="font-bold">${shipping.toFixed(2)}</span>
                 </li>
                 <li className="flex justify-between">
-                  Tax: <span className="font-bold">${tex.toFixed(2)}</span>
+                  Tax: <span className="font-bold">${tax.toFixed(2)}</span>
                 </li>
                 <hr className="border-gray-300" />
                 <li className="flex justify-between font-bold text-base">
@@ -139,9 +186,10 @@ const Cart = () => {
               <div className="mt-8 space-y-2">
                 <button
                   type="button"
+                  onClick={() => navigate("/checkout")}
                   className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-black hover:bg-gray-900 text-white rounded-md"
                 >
-                  Buy Now
+                  Proceed to Checkout
                 </button>
                 <a
                   href="/"
