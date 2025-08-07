@@ -12,7 +12,7 @@ const PrivacyPolicy = () => {
         <section className="mb-8">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">1. Introduction</h2>
           <p className="text-gray-600 mb-4">
-            Welcome to [Your E-commerce Store Name] ("we," "our," or "us"). We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase from us.
+            Welcome to AK Fashion. We are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or make a purchase from us.
           </p>
         </section>
 
